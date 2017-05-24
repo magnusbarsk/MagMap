@@ -110,13 +110,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .from(new LatLng(fromlatitude, fromlongitude))
                             .to(new LatLng(tolatitude, tolongitude))
                             .avoid(AvoidType.HIGHWAYS)
+                            .avoid(AvoidType.FERRIES)
                             .transportMode(TransportMode.DRIVING)
                             .execute(new DirectionCallback() {
                                 @Override
                                 public void onDirectionSuccess(Direction direction, String rawBody) {
                                     System.out.println("''''''''''''''''''''''''''''''''''");
                                     if (direction.isOK()) {
-                                        System.out.println("********************************************************************");
+                                        System.out.println("test");
 
                                         Route route = direction.getRouteList().get(0);
                                         Leg leg = route.getLegList().get(0);
@@ -125,25 +126,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         List<Step> stepList = direction.getRouteList().get(0).getLegList().get(0).getStepList();
 
 
-                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(getApplicationContext(), stepList, 5, Color.YELLOW, 3, Color.BLACK);
+                                        ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(getApplicationContext(), stepList, 5, Color.BLUE, 3, Color.BLACK);
                                         PolylineOptions pol = new PolylineOptions();
-                                        pol.color(Color.parseColor("#0000FF"));
-                                        for (int i=0;i<stepList.size();i++) {
-                                            Step step = stepList.get(i);
-                                            double startLat = step.getStartLocation().getLatitude();
-                                            double startLng = step.getStartLocation().getLongitude();
-                                            pol.add(new LatLng(startLat,startLng));
-
-                                            double sluttLat = step.getEndLocation().getLatitude();
-                                            double sluttLng = step.getEndLocation().getLongitude();
-
-                                            pol.add(new LatLng(sluttLat, sluttLng));
-
+                                        for (PolylineOptions polylineOption : polylineOptionList) {
+                                            mMap.addPolyline(polylineOption);
                                         }
-                                        mMap.addPolyline(pol);
-
-
-                                    }
+}
 
                                 }
                                 @Override
