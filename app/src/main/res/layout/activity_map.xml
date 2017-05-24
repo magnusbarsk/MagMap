@@ -27,16 +27,6 @@
         android:layout_toLeftOf="@+id/searchbutton"
         android:layout_toStartOf="@+id/searchbutton" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/til"
-        android:hint="Til"
-        android:layout_below="@+id/fra"
-        android:layout_centerHorizontal="true" />
-
     <Button
         android:text="Søk"
         android:layout_width="wrap_content"
@@ -47,14 +37,26 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:text="TextView"
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/til"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/avstand" />
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/til"
+        android:hint="Til"
+        android:layout_below="@+id/fra"
+        android:layout_alignLeft="@+id/fra"
+        android:layout_alignStart="@+id/fra" />
+
+    <TextView
+        android:text="avstand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/avstand"
+        android:layout_below="@+id/searchbutton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
 </RelativeLayout>

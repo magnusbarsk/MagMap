@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
 import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.constant.TransportMode;
 import com.akexorcist.googledirection.model.Direction;
 import com.akexorcist.googledirection.model.Leg;
 import com.akexorcist.googledirection.model.Route;
@@ -72,7 +73,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         sokeknapp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fra.equals("")|| til.equals("")){
+                if(fra.getText().toString().equals("")|| til.getText().toString().equals("")){
                     AlertDialog.Builder dialog = new AlertDialog.Builder(context);
                     dialog.setCancelable(true);
                     dialog.setPositiveButton("Lukk", new DialogInterface.OnClickListener() {
@@ -87,11 +88,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 else {
                     try {
                         fromlatitude = geocoder.getFromLocationName(fra.getText().toString(), 1).get(0).getLatitude();
-                        tolatitude = geocoder.getFromLocationName(fra.getText().toString(), 1).get(0).getLatitude();
+                        tolatitude = geocoder.getFromLocationName(til.getText().toString(), 1).get(0).getLatitude();
                         fromlongitude = geocoder.getFromLocationName(fra.getText().toString(), 1).get(0).getLongitude();
-                        tolongitude = geocoder.getFromLocationName(fra.getText().toString(), 1).get(0).getLongitude();
-                    } catch (Exception e) {
+                        tolongitude = geocoder.getFromLocationName(til.getText().toString(), 1).get(0).getLongitude();
 
+                        System.out.println(tolatitude + " " + tolongitude);
+                        System.out.println(fromlatitude+ " "+ fromlongitude);
+                    } catch (Exception e) {
+                        System.out.println("qwdawdawdawdaaaaaaaaaaaaaaaaaaaaaaaaa");
                     }
                     LatLng fra = new LatLng(fromlatitude, fromlongitude);
                     LatLng til = new LatLng(tolatitude, tolongitude);
@@ -101,14 +105,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(fra, 7));
                     mMap.addMarker(new MarkerOptions().position(til).title("Din destinasjon"));
 
-                    GoogleDirection.withServerKey("AIzaSyC2e3TjcVXHJeqSmwnnsEP4fKUx2DlqH9w")
+
+                    GoogleDirection.withServerKey("AIzaSyDgMuCPcbDVRdkvY6_W9VNkij4RDRZPYOE")
                             .from(new LatLng(fromlatitude, fromlongitude))
                             .to(new LatLng(tolatitude, tolongitude))
                             .avoid(AvoidType.HIGHWAYS)
+                            .transportMode(TransportMode.DRIVING)
                             .execute(new DirectionCallback() {
                                 @Override
                                 public void onDirectionSuccess(Direction direction, String rawBody) {
+                                    System.out.println("''''''''''''''''''''''''''''''''''");
                                     if (direction.isOK()) {
+                                        System.out.println("********************************************************************");
 
                                         Route route = direction.getRouteList().get(0);
                                         Leg leg = route.getLegList().get(0);
@@ -119,7 +127,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                         ArrayList<PolylineOptions> polylineOptionList = DirectionConverter.createTransitPolyline(getApplicationContext(), stepList, 5, Color.YELLOW, 3, Color.BLACK);
                                         PolylineOptions pol = new PolylineOptions();
-                                        pol.color(Color.parseColor("#00FF00"));
+                                        pol.color(Color.parseColor("#0000FF"));
                                         for (int i=0;i<stepList.size();i++) {
                                             Step step = stepList.get(i);
                                             double startLat = step.getStartLocation().getLatitude();
@@ -140,7 +148,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 }
                                 @Override
                                 public void onDirectionFailure (Throwable t) {
-
+                                    System.out.println("DET SKJEDD FEILAA");
                                 }
                             });
 
